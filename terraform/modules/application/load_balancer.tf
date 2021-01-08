@@ -104,3 +104,15 @@ resource "aws_lb_listener" "http_alb_listener" {
     }
   }
 }
+
+resource "aws_route53_record" "www" {
+  zone_id = "Z03943581T5142H50GMOB"
+  name    = "app.userleap.de-vi.me"
+  type    = "A"
+
+  alias {
+    name                   = aws_alb.app-alb.dns_name
+    zone_id                = aws_alb.app-alb.zone_id
+    evaluate_target_health = true
+  }
+}
