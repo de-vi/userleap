@@ -15,12 +15,14 @@ data "aws_ami" "db_labs_ami" {
 
 resource "aws_launch_configuration" "app_server_lc" {
   name_prefix                   =  "app-server-lc-"
-  image_id                      =  data.aws_ami.db_labs_ami.image_id
+#  image_id                      =  data.aws_ami.db_labs_ami.image_id
+  image_id                      = "ami-074b21921829825e1"
   instance_type                 = "t3.micro"
   key_name                      = "devi-us-west-1"
   security_groups               = [aws_security_group.app_server_ssh.id]
   user_data                     = file("${path.module}/app-setup.sh")
   associate_public_ip_address   = false
+  iam_instance_profile = var.ecs_instance_profile_id
   
 }
 
