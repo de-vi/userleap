@@ -15,4 +15,11 @@ module "application" {
   vpc_id              = module.networking.vpc_id
   public_subnet_ids   = module.networking.public_subnet_ids
   private_subnet_ids  = module.networking.private_subnet_ids
+  ecs_instance_profile_id = module.ecs.ecs_instance_profile_id
+}
+
+
+module "ecs" {
+  source              = "../../modules/ecs"
+  alb_target_group_arn = module.application.alb_target_group_arn
 }
