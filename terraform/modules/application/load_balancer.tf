@@ -50,8 +50,8 @@ resource "aws_security_group" "app_inbound_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -91,8 +91,9 @@ resource "aws_alb" "app-alb" {
 // Non SSL traffic (skipping SSL)
 resource "aws_lb_listener" "http_alb_listener" {
   load_balancer_arn = aws_alb.app-alb.arn
-  port              = "80"
-  protocol          = "HTTP"
+  certificate_arn = aws_acm_certificate.app_cert.arn
+  port              = "443"
+  protocol          = "HTTPS"
 
   default_action {
     type = "fixed-response"
@@ -105,7 +106,20 @@ resource "aws_lb_listener" "http_alb_listener" {
   }
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_acm_certificate" "app_cert" {
+  domain_name               = "app.userleap.de-vi.me"
+  validation_method         = "DNS"
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "app_cert_validation" {
+  certificate_arn         = aws_acm_certificate.app_cert.arn
+  validation_record_fqdns = [aws_route53_record.app_dns_record.fqdn]
+}
+
+resource "aws_route53_record" "app_dns_record" {
   zone_id = "Z03943581T5142H50GMOB"
   name    = "app.userleap.de-vi.me"
   type    = "A"
