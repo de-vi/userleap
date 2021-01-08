@@ -18,7 +18,7 @@ resource "aws_instance" "app_server" {
   ami                         = data.aws_ami.db_labs_ami.image_id
   instance_type               = "t3.micro"
 
-#   key_name                      = "challenge-key"
+  key_name                      = "devi-us-west-1"
   associate_public_ip_address   = false
   subnet_id                     = var.private_subnet_ids[0]
 
@@ -58,7 +58,7 @@ resource "aws_security_group" "app_server_ssh" {
     from_port       = 5000
     to_port         = 5000
     protocol        = "tcp"
-    cidr_blocks     = ["10.0.20.0/24"]
+    security_groups = ["${aws_security_group.app_inbound_sg.id}"]
   }
 
   egress {
