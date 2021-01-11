@@ -1,3 +1,6 @@
 pull_request_template.md
 terraform/configurations/challenge/terraform-challenge.tfstate*
 terraform/configurations/challenge/.terraform/
+.terraform
+crash.log
+**/crash.log
