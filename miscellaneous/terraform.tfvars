@@ -1,0 +1,8 @@
+environment              = "challenge"
+service_name             = "woogie-bucket"
+project_env              = "dev"
+region                   = "us-west-1"
+account_id               = "262667049843"
+elb_account_id           = "027434742980"
+state_bucket_name        = "tfstate-userleap-us-west-1"
+dynamodb_lock_table_name = "userleap-tfstate-lock-db"

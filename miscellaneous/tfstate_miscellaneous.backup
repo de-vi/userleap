@@ -1,0 +1,77 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.29",
+  "serial": 5,
+  "lineage": "a436d52e-0763-677a-c4af-0fb7dd73231a",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "log_bucket",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": "private",
+            "arn": "arn:aws:s3:::woogie-bucket-challenge-dev-access-log-bucket",
+            "bucket": "woogie-bucket-challenge-dev-access-log-bucket",
+            "bucket_domain_name": "woogie-bucket-challenge-dev-access-log-bucket.s3.amazonaws.com",
+            "bucket_prefix": null,
+            "bucket_regional_domain_name": "woogie-bucket-challenge-dev-access-log-bucket.s3.us-west-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [],
+            "hosted_zone_id": "Z2F56UZL2M1ACD",
+            "id": "woogie-bucket-challenge-dev-access-log-bucket",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "policy": null,
+            "region": "us-west-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [],
+            "tags": {
+              "environment": "challenge",
+              "project_env": "dev",
+              "service": "woogie-bucket"
+            },
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_policy",
+      "name": "access_bucket_policy",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "woogie-bucket-challenge-dev-access-log-bucket",
+            "id": "woogie-bucket-challenge-dev-access-log-bucket",
+            "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n      {\n        \"Effect\": \"Allow\",\n        \"Principal\": {\n          \"AWS\": \"arn:aws:iam::027434742980:root\"\n        },\n        \"Action\": \"s3:PutObject\",\n        \"Resource\": \"arn:aws:s3:::woogie-bucket-challenge-dev-access-log-bucket/woogie-bucket-challenge-dev-alb/AWSLogs/262667049843/*\"\n      },\n      {\n        \"Effect\": \"Allow\",\n        \"Principal\": {\n          \"Service\": \"delivery.logs.amazonaws.com\"\n        },\n        \"Action\": \"s3:PutObject\",\n        \"Resource\": \"arn:aws:s3:::woogie-bucket-challenge-dev-access-log-bucket/woogie-bucket-challenge-dev-alb/AWSLogs/262667049843/*\",\n        \"Condition\": {\n          \"StringEquals\": {\n            \"s3:x-amz-acl\": \"bucket-owner-full-control\"\n          }\n        }\n      },\n      {\n        \"Effect\": \"Allow\",\n        \"Principal\": {\n          \"Service\": \"delivery.logs.amazonaws.com\"\n        },\n        \"Action\": \"s3:GetBucketAcl\",\n        \"Resource\": \"arn:aws:s3:::woogie-bucket-challenge-dev-access-log-bucket\"\n      }\n    ]\n  }"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.log_bucket"
+          ]
+        }
+      ]
+    }
+  ]
+}
