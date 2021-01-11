@@ -1,8 +1,10 @@
+# Construct local variables for tags and resource name (these will be applied to all AWS resources)
 locals {
   name = "${var.service_name}-${var.environment}-${var.project_env}"
   tags = merge(var.default_tags, { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env })
 }
 
+# Create VPC, subnets, route tables and gateways
 module "vpc" {
   source               = "github.com/de-vi/tf-module-aws-vpc?ref=v1.0.0"
   name                 = local.name
@@ -14,6 +16,7 @@ module "vpc" {
   tags                 = local.tags
 }
 
+#Create security group for Instances(part of Autoscaling groups)
 module "app_instance_sg" {
   source                       = "github.com/de-vi/tf-module-aws-sg?ref=v1.0.0"
   vpc_id                       = module.vpc.vpc_id
@@ -23,6 +26,8 @@ module "app_instance_sg" {
   egress_cidr_rules            = var.egress_cidr_rules
 }
 
+#Create Launch Configuration and Autoscaling Group and attach target group to ASG
+#Userdata contains ECS cluster name so that ASG instances will be registered in ECS cluster
 module "app_asg" {
   source              = "github.com/de-vi/tf-module-aws-asg?ref=v1.0.0"
   name                = format("%s-%s", local.name, "instance")
@@ -37,6 +42,7 @@ module "app_asg" {
   })
 }
 
+#Create Security group for ALB
 module "app_lb_sg" {
   source             = "github.com/de-vi/tf-module-aws-sg?ref=v1.0.0"
   vpc_id             = module.vpc.vpc_id
@@ -46,6 +52,7 @@ module "app_lb_sg" {
   egress_cidr_rules  = var.egress_cidr_rules
 }
 
+#Create ALB with HTTPS listener
 module "app_lb" {
   source                     = "github.com/de-vi/tf-module-aws-alb?ref=v1.0.0"
   name                       = local.name
@@ -60,12 +67,14 @@ module "app_lb" {
   tags                       = local.tags
 }
 
+#Issue a certificate from ACM
 module "app_cert" {
   source              = "github.com/de-vi/tf-module-aws-acm?ref=v1.0.0"
   route53_record_name = var.route53_record_name
   zone_id             = var.dns_zone_id
 }
 
+#Create Route53 A Record pointing to ALB's dns name
 module "app_dns" {
   source                = "github.com/de-vi/tf-module-aws-route53?ref=v1.0.0"
   zone_id               = var.dns_zone_id
@@ -74,6 +83,7 @@ module "app_dns" {
   target_alias_zone_id  = module.app_lb.lb_dns_zone_id
 }
 
+#Create ECS cluster, Task definition and Service
 module "ecs" {
   source               = "github.com/de-vi/tf-module-aws-ecs?ref=v1.0.0"
   name                 = local.name
