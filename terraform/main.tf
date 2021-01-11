@@ -1,6 +1,6 @@
 locals {
   name = "${var.service_name}-${var.environment}-${var.project_env}"
-  tags = merge(var.default_tags, { environment = var.environment, service = var.service_name, project_env = var.project_env })
+  tags = merge(var.default_tags, { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env })
 }
 
 module "vpc" {
@@ -57,6 +57,7 @@ module "app_lb" {
   target_groups              = local.target_groups
   target_group_health_checks = var.target_group_health_checks
   access_log_bucket          = var.access_log_bucket_name
+  tags                       = local.tags
 }
 
 module "app_cert" {
