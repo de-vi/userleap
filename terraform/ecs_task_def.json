@@ -1,14 +1,14 @@
 [
   {
-    "name": "app",
+    "name": "${container_name}",
     "image": "${ecs_image_id}:${ecs_image_version}",
     "cpu": 10,
     "memory": 512,
     "essential": true,
     "portMappings": [
       {
-        "containerPort": tonumber("${container_port}"),
-        "hostPort": tonumber("${host_port})"
+        "containerPort": ${container_port},
+        "hostPort": ${host_port}
       }
     ]
   }

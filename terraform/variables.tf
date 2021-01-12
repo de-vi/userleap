@@ -64,5 +64,6 @@ variable "egress_cidr_rules" {
 variable "access_log_bucket_name" {}
 variable "ecs_image_id" {}
 variable "ecs_image_version" {}
-variable "contianer_port" {}
+variable "container_name" {}
+variable "container_port" {}
 variable "host_port" {}

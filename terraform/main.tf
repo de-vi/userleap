@@ -88,10 +88,13 @@ module "ecs" {
   source               = "github.com/de-vi/tf-module-aws-ecs?ref=v1.0.0"
   name                 = local.name
   alb_target_group_arn = module.app_lb.target_group_arn
+  container_name       = var.container_name
+  container_port       = var.container_port
   container_definitions = templatefile("ecs_task_def.json", {
     ecs_image_id      = var.ecs_image_id
     ecs_image_version = var.ecs_image_version
-    contianer_port    = var.contianer_port
-    host_port         = var.host_port
+    container_name    = var.container_name
+    container_port    = tonumber(var.container_port)
+    host_port         = tonumber(var.host_port)
   })
 }

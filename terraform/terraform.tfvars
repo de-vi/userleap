@@ -47,8 +47,9 @@ egress_cidr_rules = [
   }
 ]
 
-ecs_image_id      = "62667049843.dkr.ecr.us-west-1.amazonaws.com/userleap"
+ecs_image_id      = "262667049843.dkr.ecr.us-west-1.amazonaws.com/userleap"
 ecs_image_version = "latest"
+container_name    = "woogie"
 container_port    = 5000
 host_port         = 5000
 
