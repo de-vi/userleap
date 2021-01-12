@@ -1,11 +1,51 @@
-# The Terraform Challenge
+## Requirements
 
-The following terraform is mostly functional.  You are free to make changes to the code in any way you see fit.  
-The only requirement is that a web page is hosted on an ec2 instance and the traffic flows through a load balancer.
-The default index page from the load balancer should display "IT WORKS".
+| Name | Version |
+|------|---------|
+| terraform | = 0.12.29 |
+| aws | = 3.23.0 |
 
-Side quests can include:
-- improved security
-- high(er) availability
-- containerization
-- fun with DNS
+## Providers
+
+No provider.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| access\_log\_bucket\_name | n/a | `any` | n/a | yes |
+| account\_id | n/a | `any` | n/a | yes |
+| availability\_zones | The az that the resources will be launched | `list` | n/a | yes |
+| container\_name | n/a | `any` | n/a | yes |
+| container\_port | n/a | `any` | n/a | yes |
+| default\_tags | n/a | `any` | n/a | yes |
+| dns\_zone\_id | n/a | `any` | n/a | yes |
+| ecs\_image\_id | n/a | `any` | n/a | yes |
+| ecs\_image\_version | n/a | `any` | n/a | yes |
+| elb\_account\_id | n/a | `any` | n/a | yes |
+| environment | The environment | `any` | n/a | yes |
+| host\_port | n/a | `any` | n/a | yes |
+| key\_pair\_name | n/a | `any` | n/a | yes |
+| private\_subnets\_cidr | n/a | `list` | n/a | yes |
+| project\_env | n/a | `any` | n/a | yes |
+| public\_subnets\_cidr | n/a | `list` | n/a | yes |
+| region | Region that the instances will be created | `any` | n/a | yes |
+| route53\_record\_name | n/a | `any` | n/a | yes |
+| service\_name | n/a | `any` | n/a | yes |
+| vpc\_cidr | n/a | `any` | n/a | yes |
+| alias\_records | n/a | `list` | `[]` | no |
+| egress\_cidr\_rules | n/a | `list` | `[]` | no |
+| instance\_sg\_rules | n/a | `list` | `[]` | no |
+| key\_public\_material | n/a | `string` | `""` | no |
+| lb\_cidr\_rules | n/a | `list` | `[]` | no |
+| listeners | n/a | `list` | `[]` | no |
+| listeners\_count | n/a | `number` | `1` | no |
+| target\_group\_health\_checks | n/a | `list` | `[]` | no |
+| target\_groups | n/a | `list` | `[]` | no |
+| target\_groups\_count | n/a | `number` | `1` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| app\_endpoint | n/a |
