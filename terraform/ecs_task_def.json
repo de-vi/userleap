@@ -3,12 +3,11 @@
     "name": "${container_name}",
     "image": "${ecs_image_id}:${ecs_image_version}",
     "cpu": 10,
-    "memory": 512,
+    "memory": 256,
     "essential": true,
     "portMappings": [
       {
-        "containerPort": ${container_port},
-        "hostPort": ${host_port}
+        "containerPort": ${container_port}
       }
     ]
   }
