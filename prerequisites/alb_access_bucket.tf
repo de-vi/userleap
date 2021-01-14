@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "log_bucket" {
   #tfsec:ignore:AWS002
   #checkov:skip=CKV_AWS_19:No server side encryption - logs transparently encrypted
   #tfsec:ignore:AWS017
-  bucket = "${local.name}-access-log-bucket"
+  bucket = "${local.name}-access-log-bucket-us-east-1"
   acl    = "private"
   tags   = local.tags
   versioning {
