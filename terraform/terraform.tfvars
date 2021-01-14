@@ -1,22 +1,20 @@
 environment          = "challenge"
 service_name         = "woogie-bucket"
 project_env          = "dev"
-region               = "us-west-1"
+region               = "us-east-1"
 account_id           = "262667049843"
-elb_account_id       = "027434742980"
-availability_zones   = ["us-west-1b", "us-west-1c"]
+elb_account_id       = "127311923021"
+availability_zones   = ["us-east-1b", "us-east-1c"]
 vpc_cidr             = "10.0.0.0/16"
 private_subnets_cidr = ["10.0.10.0/24", "10.0.20.0/24"]
 public_subnets_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
 default_tags = {
   createdBy = "devi"
 }
-key_pair_name          = "devi-us-west-1"
+key_pair_name          = "devi-us-east-1"
 dns_zone_id            = "Z03943581T5142H50GMOB"
 route53_record_name    = "app.userleap.de-vi.me"
-access_log_bucket_name = "woogie-bucket-challenge-dev-access-log-bucket"
-target_groups_count    = 1
-listeners_count        = 1
+access_log_bucket_name = "woogie-bucket-challenge-dev-access-log-bucket-us-east-1"
 
 target_group_health_checks = [{
   healthy_threshold   = 2
@@ -28,16 +26,23 @@ target_group_health_checks = [{
   timeout             = 5
 }]
 
-lb_cidr_rules = [
+ingress_lb_cidr_rules = [
   {
     desc        = "Allow HTTPS access to load balancer from everywhere"
     from_port   = "443"
     to_port     = "443"
     protocol    = "TCP"
     cidr_blocks = "0.0.0.0/0"
+  },
+  {
+    desc        = "Allow HTTP access to load balancer from everywhere"
+    from_port   = "80"
+    to_port     = "80"
+    protocol    = "TCP"
+    cidr_blocks = "0.0.0.0/0"
   }
 ]
-egress_cidr_rules = [
+egress_instance_cidr_rules = [
   {
     desc        = "Allow All"
     from_port   = 0
@@ -47,10 +52,8 @@ egress_cidr_rules = [
   }
 ]
 
+
 ecs_image_id      = "262667049843.dkr.ecr.us-west-1.amazonaws.com/userleap"
 ecs_image_version = "latest"
 container_name    = "woogie"
 container_port    = 5000
-host_port         = 5000
-
-

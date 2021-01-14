@@ -22,8 +22,10 @@ module "app_instance_sg" {
   vpc_id                       = module.vpc.vpc_id
   name                         = format("%s-%s", local.name, "instance")
   description                  = format("%s-%s", local.name, "instance")
-  ingress_security_group_rules = local.instance_sg_rules
-  egress_cidr_rules            = var.egress_cidr_rules
+  tags                         = local.tags
+  ingress_security_group_rules = local.ingress_instance_sg_rules
+  egress_security_group_rules  = local.egress_instance_sg_rules
+  egress_cidr_rules            = var.egress_instance_cidr_rules
 }
 
 #Create Launch Configuration and Autoscaling Group and attach target group to ASG
@@ -44,12 +46,14 @@ module "app_asg" {
 
 #Create Security group for ALB
 module "app_lb_sg" {
-  source             = "github.com/de-vi/tf-module-aws-sg?ref=v1.0.0"
-  vpc_id             = module.vpc.vpc_id
-  name               = format("%s-%s", local.name, "alb")
-  description        = format("%s-%s", local.name, "alb")
-  ingress_cidr_rules = var.lb_cidr_rules
-  egress_cidr_rules  = var.egress_cidr_rules
+  source                       = "github.com/de-vi/tf-module-aws-sg?ref=v1.0.0"
+  vpc_id                       = module.vpc.vpc_id
+  name                         = format("%s-%s", local.name, "alb")
+  description                  = format("%s-%s", local.name, "alb")
+  tags                         = local.tags
+  ingress_cidr_rules           = var.ingress_lb_cidr_rules
+  ingress_security_group_rules = local.ingress_lb_sg_rules
+  egress_security_group_rules  = local.egress_lb_sg_rules
 }
 
 #Create ALB with HTTPS listener
@@ -59,12 +63,11 @@ module "app_lb" {
   vpc_id                     = module.vpc.vpc_id
   subnet_ids                 = module.vpc.public_subnet_ids
   sg_ids                     = [module.app_lb_sg.sg_id]
-  listeners_count            = var.listeners_count
-  listeners                  = local.listeners
   target_groups              = local.target_groups
   target_group_health_checks = var.target_group_health_checks
   access_log_bucket          = var.access_log_bucket_name
   tags                       = local.tags
+  ssl_cert_arn               = module.app_cert.acm_cert_arn
 }
 
 #Issue a certificate from ACM
@@ -85,9 +88,11 @@ module "app_dns" {
 
 #Create ECS cluster, Task definition and Service
 module "ecs" {
+  depends_on           = [module.app_lb]
   source               = "github.com/de-vi/tf-module-aws-ecs?ref=v1.0.0"
   name                 = local.name
   alb_target_group_arn = module.app_lb.target_group_arn
+  desired_task_count   = 2
   container_name       = var.container_name
   container_port       = var.container_port
   container_definitions = templatefile("ecs_task_def.json", {
@@ -95,6 +100,5 @@ module "ecs" {
     ecs_image_version = var.ecs_image_version
     container_name    = var.container_name
     container_port    = tonumber(var.container_port)
-    host_port         = tonumber(var.host_port)
   })
 }

@@ -2,7 +2,7 @@
 
 | Name | Version |
 |------|---------|
-| terraform | = 0.12.29 |
+| terraform | = 0.13.6 |
 | aws | = 3.23.0 |
 
 ## Providers
@@ -24,7 +24,6 @@ No provider.
 | ecs\_image\_version | n/a | `any` | n/a | yes |
 | elb\_account\_id | n/a | `any` | n/a | yes |
 | environment | The environment | `any` | n/a | yes |
-| host\_port | n/a | `any` | n/a | yes |
 | key\_pair\_name | n/a | `any` | n/a | yes |
 | private\_subnets\_cidr | n/a | `list` | n/a | yes |
 | project\_env | n/a | `any` | n/a | yes |
@@ -34,15 +33,16 @@ No provider.
 | service\_name | n/a | `any` | n/a | yes |
 | vpc\_cidr | n/a | `any` | n/a | yes |
 | alias\_records | n/a | `list` | `[]` | no |
-| egress\_cidr\_rules | n/a | `list` | `[]` | no |
-| instance\_sg\_rules | n/a | `list` | `[]` | no |
+| egress\_instance\_cidr\_rules | n/a | `list` | `[]` | no |
+| egress\_instance\_sg\_rules | n/a | `list` | `[]` | no |
+| egress\_lb\_sg\_rules | n/a | `list` | `[]` | no |
+| ingress\_instance\_sg\_rules | n/a | `list` | `[]` | no |
+| ingress\_lb\_cidr\_rules | n/a | `list` | `[]` | no |
+| ingress\_lb\_sg\_rules | n/a | `list` | `[]` | no |
 | key\_public\_material | n/a | `string` | `""` | no |
-| lb\_cidr\_rules | n/a | `list` | `[]` | no |
 | listeners | n/a | `list` | `[]` | no |
-| listeners\_count | n/a | `number` | `1` | no |
 | target\_group\_health\_checks | n/a | `list` | `[]` | no |
 | target\_groups | n/a | `list` | `[]` | no |
-| target\_groups\_count | n/a | `number` | `1` | no |
 
 ## Outputs
 

@@ -41,23 +41,25 @@ variable "target_groups" {
 variable "target_group_health_checks" {
   default = []
 }
-variable "target_groups_count" {
-  default = 1
-}
 variable "listeners" {
   default = []
 }
-variable "listeners_count" {
-  default = 1
-}
-variable "instance_sg_rules" {
+variable "ingress_instance_sg_rules" {
   default = []
 }
-variable "lb_cidr_rules" {
+variable "egress_instance_sg_rules" {
   default = []
 }
-
-variable "egress_cidr_rules" {
+variable "ingress_lb_sg_rules" {
+  default = []
+}
+variable "egress_lb_sg_rules" {
+  default = []
+}
+variable "ingress_lb_cidr_rules" {
+  default = []
+}
+variable "egress_instance_cidr_rules" {
   default = []
 }
 
@@ -66,4 +68,3 @@ variable "ecs_image_id" {}
 variable "ecs_image_version" {}
 variable "container_name" {}
 variable "container_port" {}
-variable "host_port" {}

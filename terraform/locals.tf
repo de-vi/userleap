@@ -1,20 +1,39 @@
 locals {
-  listeners = [{
-    port         = 443,
-    protocol     = "HTTPS",
-    ssl_cert_arn = module.app_cert.acm_cert_arn
-  }]
   target_groups = [{
-    name        = local.name,
-    port        = 5000,
-    protocol    = "HTTP",
-    target_type = "instance"
+    name     = local.name,
+    port     = 5000,
+    protocol = "HTTP"
   }]
-  instance_sg_rules = [{
-    desc                     = "Allow flask app access from load balancer",
-    from_port                = 5000,
-    to_port                  = 5000,
+
+  ingress_instance_sg_rules = [{
+    desc                     = "Allow access to ephemeral ports for dynamic ports mapping",
+    from_port                = 32768,
+    to_port                  = 65535,
     protocol                 = "tcp",
     source_security_group_id = module.app_lb_sg.sg_id
+  }]
+
+  egress_instance_sg_rules = [{
+    desc                     = "Allow access to ephemeral ports for dynamic ports mapping",
+    from_port                = 32768,
+    to_port                  = 65535,
+    protocol                 = "tcp",
+    source_security_group_id = module.app_lb_sg.sg_id
+  }]
+
+  ingress_lb_sg_rules = [{
+    desc                     = "Allow access to ephemeral ports for dynamic ports mapping",
+    from_port                = 32768,
+    to_port                  = 65535,
+    protocol                 = "tcp",
+    source_security_group_id = module.app_instance_sg.sg_id
+  }]
+
+  egress_lb_sg_rules = [{
+    desc                     = "Allow access to ephemeral ports for dynamic ports mapping",
+    from_port                = 32768,
+    to_port                  = 65535,
+    protocol                 = "tcp",
+    source_security_group_id = module.app_instance_sg.sg_id
   }]
 }
