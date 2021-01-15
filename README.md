@@ -1,23 +1,40 @@
 # Dockerized Flask App hosted on ECS(with autoscaling group)
 
+
+
 ## Repository Structure:
 ### app
 Has Dockerfile and helper script required to create Docker image
 ```
 cd app
-docker build . -t <tag_for_image>
-docker login
-docker tag as per ECR instructions
-docker push with aws ecr format
+# Replace xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com with ECR registry URL
+docker build . -t xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/userleap
+aws ecr get-login-password --region region | docker login --username AWS --password-stdin xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com
+docker push xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/userleap
 ```
 
 ### prerequisites
 Has terraform code to setup project
+
+## Minimum Required Variables for terraform execution
+route53_domain_name - Route53 domain name in which you want to create app dns record, for example dev.example.com
+route53_record_name - Route53(DNS) record name for your application - app.dev.example.com
+---
+**NOTE**
+
+This route53_domain_name must be a public zone
+route53_record_name must be a subdomain of route53_domain_name
+For example, if route53_domain_name is example.com then route53_record_name can be dev.example.com or test.example.com
+These are used to issue an ACM certificate 
+
+---
+
 ```
 cd prerequisites
-AWS_PROFILE=<profile> terraform init
-AWS_PROFILE=<profile> terraform plan
-AWS_PROFILE=<profile> terraform apply
+# replace region_name with region of your choice, for example - us-east-1 or us-west-1
+AWS_PROFILE=<profile> terraform init -var="region=<region_name>"
+AWS_PROFILE=<profile> terraform plan -var="region=<region_name>"
+AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 ```
 
 ![Pre-requisites](img/prereq.gif)
@@ -27,14 +44,29 @@ AWS_PROFILE=<profile> terraform apply
 - Dynamodb to create lock table
 - S3 bucket to store load balancer access logs 
 - Backend file for application infra build
+- Certificate for application endpoint
+
 
 ### terraform
 Has code to build infrastructure and deploy application
+
+## Minimum required variables
+ecs_image_id      = "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
+ecs_image_version = "latest"
+
+---
+**NOTE**
+
+Replace xxxxxxxxxx with account id and region_name with region in which the docker image is stored
+
+---
+
 ```
 cd terraform
-AWS_PROFILE=<profile> terraform init
-AWS_PROFILE=<profile> terraform plan
-AWS_PROFILE=<profile> terraform apply
+# replace region_name with region of your choice, for example - us-east-1 or us-west-1
+AWS_PROFILE=<profile> terraform init -var="region=<region_name>"
+AWS_PROFILE=<profile> terraform plan -var="region=<region_name>"
+AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 ```
 
 ![Deploy](img/deploy.gif)
@@ -59,9 +91,6 @@ AWS_PROFILE=<profile> terraform apply
   - Target group
   - Access logs enabled
   - HTTPS listener
-
-- Certificate:
-  - Certificate for application endpoint
 
 - DNS:
   - An A record for application pointing to load balancer's DNS name
