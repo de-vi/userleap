@@ -12,6 +12,7 @@ func TestAppInfra(t *testing.T) {
 	// Terraform options
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "..",
+		Vars: map[string]interface{}{"region": "us-east-1"},
 	})
 
 	// Terraform Init & Apply
