@@ -85,7 +85,7 @@ resource "local_file" "backend_file" {
   filename = "../terraform/backend.tf"
 }
 
-resource "null_resource" "lambda_jar" {
+resource "null_resource" "backend_file" {
   provisioner "local-exec" {
     when    = destroy
     command = "rm ../terraform/backend.tf"
