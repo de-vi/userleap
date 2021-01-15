@@ -1,4 +1,3 @@
-variable "region" {}
 variable "project_env" {}
 variable "environment" {}
 variable "service_name" {}
