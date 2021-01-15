@@ -18,7 +18,7 @@ data "aws_availability_zones" "available" {
 # Construct local variables for tags and resource name (these will be applied to all AWS resources)
 locals {
   name                   = "${var.service_name}-${var.environment}-${var.project_env}"
-  tags                   = merge(var.default_tags, { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env })
+  tags                   = { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env }
   availability_zones     = slice(data.aws_availability_zones.available.names, 0, 2)
   state_bucket_name      = data.terraform_remote_state.get_pre_reqs.outputs.state_bucket_name
   access_log_bucket_name = data.terraform_remote_state.get_pre_reqs.outputs.access_log_bucket_name
@@ -93,9 +93,14 @@ module "app_lb" {
 }
 
 #Create Route53 A Record pointing to ALB's dns name
+
+data "aws_route53_zone" "route53_domain" {
+  name         = var.route53_domain_name
+}
+
 module "app_dns" {
   source                = "github.com/de-vi/tf-module-aws-route53?ref=v1.0.0"
-  zone_id               = var.dns_zone_id
+  zone_id               = data.aws_route53_zone.route53_domain.zone_id
   route53_record_name   = var.route53_record_name
   target_alias_dns_name = module.app_lb.lb_dns_name
   target_alias_zone_id  = module.app_lb.lb_dns_zone_id
