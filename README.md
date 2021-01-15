@@ -16,7 +16,7 @@ docker push xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/userleap
 ### prerequisites
 Has terraform code to setup project
 
-## Minimum Required Variables for terraform execution
+**Minimum Required Variables for terraform execution**
 
 - *route53_domain_name* - Route53 domain name in which you want to create app dns record
 - *route53_record_name* - Route53(DNS) record name for your application
@@ -52,16 +52,22 @@ AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 ### terraform
 Has code to build infrastructure and deploy application
 
-## Minimum required variables
+**Minimum required variables**
 
 - *ecs_image_id*      - "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
 - *ecs_image_version* - "latest"
+- *route53_domain_name* - Route53 domain name in which you want to create app dns record
+- *route53_record_name* - Route53(DNS) record name for your application
+- *key_pair_name* - name of the keypair so that we can ssh to EC2 for any troubleshooting
 
 ---
 **NOTE**
 
 - Replace xxxxxxxxxx with account id and region_name with region in which the docker image is stored
 - Use appropriate version number/format for ecs_image_version if you have custom image names
+- Route53 variables must be same as defined in prerequisites
+- Keypair must be created before hand in the region you are running the terraform code against
+- There is no ssh rule opened in instance sg for security purposes, you need to manually a ssh rule in instance security group if you want to ssh to instance and remember to remove it after you are done
 
 ---
 
