@@ -1,11 +1,7 @@
-variable "account_id" {}
-variable "elb_account_id" {}
 variable "region" {}
 variable "project_env" {}
 variable "environment" {}
 variable "service_name" {}
-variable "state_bucket_name" {}
-variable "dynamodb_lock_table_name" {}
-variable "name" {
-  default = ""
-}
+variable "applications" {}
+variable "route53_domain_name" {}
+variable "route53_record_name" {}
