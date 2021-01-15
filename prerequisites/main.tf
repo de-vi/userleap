@@ -76,6 +76,7 @@ data "template_file" "backend_config" {
   vars = {
     state_bucket_name = aws_s3_bucket.terraform_state.id
     lock_db_table     = aws_dynamodb_table.terraform_locks.id
+    region            = var.region
   }
 }
 
