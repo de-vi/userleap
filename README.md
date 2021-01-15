@@ -11,7 +11,7 @@ docker tag as per ECR instructions
 docker push with aws ecr format
 ```
 
-### miscellaneous
+### prerequisites
 Has terraform code to setup project
 ```
 cd prerequisites
@@ -19,6 +19,8 @@ AWS_PROFILE=<profile> terraform init
 AWS_PROFILE=<profile> terraform plan
 AWS_PROFILE=<profile> terraform apply
 ```
+
+![Pre-requisites](img/prereq.gif)
 
 #### Creates:
 - S3 bucket to store state
@@ -34,6 +36,8 @@ AWS_PROFILE=<profile> terraform init
 AWS_PROFILE=<profile> terraform plan
 AWS_PROFILE=<profile> terraform apply
 ```
+
+![Deploy](img/deploy.gif)
 
 #### Creates: 
 - VPC with
