@@ -17,15 +17,17 @@ docker push xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/userleap
 Has terraform code to setup project
 
 ## Minimum Required Variables for terraform execution
-route53_domain_name - Route53 domain name in which you want to create app dns record, for example dev.example.com
-route53_record_name - Route53(DNS) record name for your application - app.dev.example.com
+
+*route53_domain_name* - Route53 domain name in which you want to create app dns record, for example dev.example.com
+*route53_record_name* - Route53(DNS) record name for your application - app.dev.example.com
+
 ---
 **NOTE**
 
-This route53_domain_name must be a public zone
-route53_record_name must be a subdomain of route53_domain_name
-For example, if route53_domain_name is example.com then route53_record_name can be dev.example.com or test.example.com
-These are used to issue an ACM certificate 
+- The route53_domain_name must be a public zone
+- route53_record_name must be a subdomain of route53_domain_name
+    - For example, if route53_domain_name is example.com then route53_record_name can be dev.example.com or test.example.com
+- These are used to issue an ACM certificate 
 
 ---
 
@@ -51,13 +53,15 @@ AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 Has code to build infrastructure and deploy application
 
 ## Minimum required variables
-ecs_image_id      = "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
-ecs_image_version = "latest"
+
+*ecs_image_id*      - "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
+*ecs_image_version* - "latest"
 
 ---
 **NOTE**
 
-Replace xxxxxxxxxx with account id and region_name with region in which the docker image is stored
+- Replace xxxxxxxxxx with account id and region_name with region in which the docker image is stored
+- Use appropriate version number/format for ecs_image_version if you have custom image names
 
 ---
 
@@ -102,12 +106,21 @@ AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 
 ### terraform/test
 Has terratest code to validate the deployment
+
 ```
 cd terraform/test
-go test
+AWS_PROFILE=<profile> go test
 ```
+
 #### Performs: 
 - Terraform init and apply
 - Take application url from terraform response
-- Perform http get on the / endpoint
+- Perform http get on the / endpoint and validates response code & content
 - Terraform destroy
+
+---
+*NOTE*
+
+This must be run after the prerequisites execution
+
+---
