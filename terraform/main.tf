@@ -1,7 +1,29 @@
+data "aws_acm_certificate" "app_cert" {
+  domain   = var.route53_record_name
+  statuses = ["ISSUED"]
+  most_recent = true
+}
+
+data "terraform_remote_state" "get_pre_reqs" {
+  backend = "local"
+  config = {
+    path = "../prerequisites/.tfstate_prerequisites"
+  }
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # Construct local variables for tags and resource name (these will be applied to all AWS resources)
 locals {
-  name = "${var.service_name}-${var.environment}-${var.project_env}"
-  tags = merge(var.default_tags, { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env })
+  name                   = "${var.service_name}-${var.environment}-${var.project_env}"
+  tags                   = merge(var.default_tags, { Name = local.name, environment = var.environment, service = var.service_name, project_env = var.project_env })
+  availability_zones     = slice(data.aws_availability_zones.available.names, 0, 2)
+  state_bucket_name      = data.terraform_remote_state.get_pre_reqs.outputs.state_bucket_name
+  access_log_bucket_name = data.terraform_remote_state.get_pre_reqs.outputs.access_log_bucket_name
+  lock_db_table          = data.terraform_remote_state.get_pre_reqs.outputs.dynamodb_table_name
+
 }
 
 # Create VPC, subnets, route tables and gateways
@@ -12,7 +34,7 @@ module "vpc" {
   public_subnets_cidr  = var.public_subnets_cidr
   private_subnets_cidr = var.private_subnets_cidr
   region               = var.region
-  availability_zones   = var.availability_zones
+  availability_zones   = local.availability_zones
   tags                 = local.tags
 }
 
@@ -65,16 +87,9 @@ module "app_lb" {
   sg_ids                     = [module.app_lb_sg.sg_id]
   target_groups              = local.target_groups
   target_group_health_checks = var.target_group_health_checks
-  access_log_bucket          = var.access_log_bucket_name
+  access_log_bucket          = local.access_log_bucket_name
   tags                       = local.tags
-  ssl_cert_arn               = module.app_cert.acm_cert_arn
-}
-
-#Issue a certificate from ACM
-module "app_cert" {
-  source              = "github.com/de-vi/tf-module-aws-acm?ref=v1.0.0"
-  route53_record_name = var.route53_record_name
-  zone_id             = var.dns_zone_id
+  ssl_cert_arn               = data.aws_acm_certificate.app_cert.arn
 }
 
 #Create Route53 A Record pointing to ALB's dns name
