@@ -1,5 +1,7 @@
 variable "vpc_cidr" {}
 
+variable "region" {}
+
 variable "public_subnets_cidr" {
   type = list
 }
@@ -14,15 +16,14 @@ variable "environment" {
 
 variable "service_name" {}
 variable "project_env" {}
-variable "default_tags" {}
 variable "key_pair_name" {}
-variable "dns_zone_id" {}
 variable "key_public_material" {
   default = ""
 }
 variable "alias_records" {
   default = []
 }
+variable "route53_domain_name" {}
 variable "route53_record_name" {}
 
 variable "target_groups" {
