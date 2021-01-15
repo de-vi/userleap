@@ -98,8 +98,7 @@ data "aws_route53_zone" "route53_domain" {
 
 #Issue a certificate from ACM
 module "app_cert" {
-  #source              = "github.com/de-vi/tf-module-aws-acm?ref=v1.0.0"
-  source              = "../../../tf-module-aws-acm"
+  source              = "github.com/de-vi/tf-module-aws-acm?ref=v1.0.0"
   route53_record_name = var.route53_record_name
   zone_id             = data.aws_route53_zone.route53_domain.zone_id
 }
