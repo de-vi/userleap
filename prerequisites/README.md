@@ -18,13 +18,13 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| applications | n/a | `any` | n/a | yes |
-| environment | n/a | `any` | n/a | yes |
-| project\_env | n/a | `any` | n/a | yes |
-| region | n/a | `any` | n/a | yes |
-| route53\_domain\_name | n/a | `any` | n/a | yes |
-| route53\_record\_name | n/a | `any` | n/a | yes |
-| service\_name | n/a | `any` | n/a | yes |
+| applications | List of application prefixes to add in access log s3 bucket policy, must be a comma separated string. For example | `string` | n/a | yes |
+| environment | Name of your environment | `string` | n/a | yes |
+| project\_env | system environment, for example dev, test or uat | `string` | n/a | yes |
+| region | Region in which you want to create infrastructure and deploy application | `string` | n/a | yes |
+| route53\_domain\_name | Name of the Route53 domain in which application will be hosted | `string` | n/a | yes |
+| route53\_record\_name | DNS name for application, must be a subdomain of route53\_domain\_name | `string` | n/a | yes |
+| service\_name | Name of your service | `string` | n/a | yes |
 
 ## Outputs
 
