@@ -14,24 +14,25 @@ docker push with aws ecr format
 ### miscellaneous
 Has terraform code to setup project
 ```
-cd miscellaneous
-terraform init
-terraform plan
-terraform apply
+cd prerequisites
+AWS_PROFILE=<profile> terraform init
+AWS_PROFILE=<profile> terraform plan
+AWS_PROFILE=<profile> terraform apply
 ```
 
 #### Creates:
 - S3 bucket to store state
 - Dynamodb to create lock table
 - S3 bucket to store load balancer access logs 
+- Backend file for application infra build
 
 ### terraform
 Has code to build infrastructure and deploy application
 ```
 cd terraform
-terraform init
-terraform plan
-terraform apply
+AWS_PROFILE=<profile> terraform init
+AWS_PROFILE=<profile> terraform plan
+AWS_PROFILE=<profile> terraform apply
 ```
 
 #### Creates: 

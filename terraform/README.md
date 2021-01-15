@@ -7,22 +7,21 @@
 
 ## Providers
 
-No provider.
+| Name | Version |
+|------|---------|
+| aws | = 3.23.0 |
+| terraform | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| access\_log\_bucket\_name | n/a | `any` | n/a | yes |
-| account\_id | n/a | `any` | n/a | yes |
-| availability\_zones | The az that the resources will be launched | `list` | n/a | yes |
 | container\_name | n/a | `any` | n/a | yes |
 | container\_port | n/a | `any` | n/a | yes |
 | default\_tags | n/a | `any` | n/a | yes |
 | dns\_zone\_id | n/a | `any` | n/a | yes |
 | ecs\_image\_id | n/a | `any` | n/a | yes |
 | ecs\_image\_version | n/a | `any` | n/a | yes |
-| elb\_account\_id | n/a | `any` | n/a | yes |
 | environment | The environment | `any` | n/a | yes |
 | key\_pair\_name | n/a | `any` | n/a | yes |
 | private\_subnets\_cidr | n/a | `list` | n/a | yes |
