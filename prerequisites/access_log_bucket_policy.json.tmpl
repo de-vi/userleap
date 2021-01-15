@@ -1,13 +1,14 @@
 {
     "Version": "2012-10-17",
     "Statement": [
+      %{ for name in split(",", applications) }
       {
         "Effect": "Allow",
         "Principal": {
           "AWS": "arn:aws:iam::${elb_account_id}:root"
         },
         "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${bucket_name}/${name}-alb/AWSLogs/${account_id}/*"
+        "Resource": "arn:aws:s3:::${bucket_name}/${name}-alb/AWSLogs/${aws_account_id}/*"
       },
       {
         "Effect": "Allow",
@@ -15,13 +16,14 @@
           "Service": "delivery.logs.amazonaws.com"
         },
         "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${bucket_name}/${name}-alb/AWSLogs/${account_id}/*",
+        "Resource": "arn:aws:s3:::${bucket_name}/${name}-alb/AWSLogs/${aws_account_id}/*",
         "Condition": {
           "StringEquals": {
             "s3:x-amz-acl": "bucket-owner-full-control"
           }
         }
       },
+      %{ endfor }
       {
         "Effect": "Allow",
         "Principal": {
@@ -31,4 +33,4 @@
         "Resource": "arn:aws:s3:::${bucket_name}"
       }
     ]
-  }
+}
