@@ -1,4 +1,4 @@
-# Dockerized Flask App hosted on ECS(with autoscaling group)
+# Dockerized Flask App hosted on ECS(with autoscaling group and dynamic port mapping)
 
 
 
