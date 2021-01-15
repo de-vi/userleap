@@ -18,8 +18,8 @@ Has terraform code to setup project
 
 ## Minimum Required Variables for terraform execution
 
-*route53_domain_name* - Route53 domain name in which you want to create app dns record, for example dev.example.com
-*route53_record_name* - Route53(DNS) record name for your application - app.dev.example.com
+*route53_domain_name* - Route53 domain name in which you want to create app dns record
+*route53_record_name* - Route53(DNS) record name for your application
 
 ---
 **NOTE**
