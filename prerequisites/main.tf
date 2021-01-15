@@ -83,12 +83,12 @@ data "template_file" "backend_config" {
 resource "local_file" "backend_file" {
   content  = data.template_file.backend_config.rendered
   filename = "../terraform/backend.tf"
+  depends_on = [null_resource.backend_file]
 }
 
 resource "null_resource" "backend_file" {
   provisioner "local-exec" {
-    when    = destroy
-    command = "rm ../terraform/backend.tf"
+    command = "rm ../terraform/backend.tf || true"
   }
 }
 
