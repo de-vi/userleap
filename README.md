@@ -18,8 +18,8 @@ Has terraform code to setup project
 
 ## Minimum Required Variables for terraform execution
 
-*route53_domain_name* - Route53 domain name in which you want to create app dns record
-*route53_record_name* - Route53(DNS) record name for your application
+- *route53_domain_name* - Route53 domain name in which you want to create app dns record
+- *route53_record_name* - Route53(DNS) record name for your application
 
 ---
 **NOTE**
@@ -54,8 +54,8 @@ Has code to build infrastructure and deploy application
 
 ## Minimum required variables
 
-*ecs_image_id*      - "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
-*ecs_image_version* - "latest"
+- *ecs_image_id*      - "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
+- *ecs_image_version* - "latest"
 
 ---
 **NOTE**
