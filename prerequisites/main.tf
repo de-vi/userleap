@@ -81,8 +81,8 @@ data "template_file" "backend_config" {
 }
 
 resource "local_file" "backend_file" {
-  content  = data.template_file.backend_config.rendered
-  filename = "../terraform/backend.tf"
+  content    = data.template_file.backend_config.rendered
+  filename   = "../terraform/backend.tf"
   depends_on = [null_resource.backend_file]
 }
 
@@ -93,7 +93,7 @@ resource "null_resource" "backend_file" {
 }
 
 data "aws_route53_zone" "route53_domain" {
-  name         = var.route53_domain_name
+  name = var.route53_domain_name
 }
 
 #Issue a certificate from ACM

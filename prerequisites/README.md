@@ -11,17 +11,20 @@
 |------|---------|
 | aws | = 3.23.0 |
 | local | n/a |
+| null | n/a |
 | template | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| applications | n/a | `any` | n/a | yes |
 | environment | n/a | `any` | n/a | yes |
 | project\_env | n/a | `any` | n/a | yes |
 | region | n/a | `any` | n/a | yes |
+| route53\_domain\_name | n/a | `any` | n/a | yes |
+| route53\_record\_name | n/a | `any` | n/a | yes |
 | service\_name | n/a | `any` | n/a | yes |
-| name | n/a | `string` | `""` | no |
 
 ## Outputs
 

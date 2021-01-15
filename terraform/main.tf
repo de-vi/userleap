@@ -1,6 +1,6 @@
 data "aws_acm_certificate" "app_cert" {
-  domain   = var.route53_record_name
-  statuses = ["ISSUED"]
+  domain      = var.route53_record_name
+  statuses    = ["ISSUED"]
   most_recent = true
 }
 
@@ -95,7 +95,7 @@ module "app_lb" {
 #Create Route53 A Record pointing to ALB's dns name
 
 data "aws_route53_zone" "route53_domain" {
-  name         = var.route53_domain_name
+  name = var.route53_domain_name
 }
 
 module "app_dns" {
