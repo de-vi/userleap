@@ -1,7 +1,5 @@
 # Dockerized Flask App hosted on ECS(with autoscaling group and dynamic port mapping)
 
-
-
 ## Repository Structure:
 ### app
 Has Dockerfile and helper script required to create Docker image
@@ -16,7 +14,9 @@ docker push xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/userleap
 ### prerequisites
 Has terraform code to setup project
 
-**Minimum Required Variables for terraform execution**
+**Minimum Required Variables**
+
+:information_source: modify below variables in terraform.tfvars
 
 - *route53_domain_name* - Route53 domain name in which you want to create app dns record
 - *route53_record_name* - Route53(DNS) record name for your application
@@ -53,6 +53,8 @@ AWS_PROFILE=<profile> terraform apply -var="region=<region_name>"
 Has code to build infrastructure and deploy application
 
 **Minimum required variables**
+
+:information_source: modify below variables in terraform.tfvars
 
 - *ecs_image_id*      - "xxxxxxxxxxxx.dkr.ecr.<region_name>.amazonaws.com/<ecr_repo_name>"
 - *ecs_image_version* - "latest"
