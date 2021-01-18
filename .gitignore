@@ -4,3 +4,4 @@ terraform/configurations/challenge/.terraform/
 .terraform
 crash.log
 **/crash.log
+**/*.pyc
